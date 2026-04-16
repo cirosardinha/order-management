@@ -1,11 +1,9 @@
-import { OrderStatus } from '../enums/order-stats';
+import { OrderStatus } from '../enums/order-status';
 
 export interface Order {
   id: string;
   customerName: string;
-  customerPhone: string;
-  customerNotes: string;
   status: OrderStatus;
   deliveryDate: Date;
-  orderPrice: number;
+  product: string;
 }

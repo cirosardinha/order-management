@@ -1,1 +1,74 @@
-<p>order-item works!</p>
+<div
+  class="grid grid-cols-1 md:grid-cols-5 gap-3 md:gap-0 items-start  md:items-center border md:border-0 md:border-b md:border-gray-200 rounded-lg p-4 md:p-0 bg-white md:bg-transparent shadow-sm md:shadow-none">
+  <div class="text-gray-700 text-sm font-medium mx-2">
+    <span class="md:hidden text-gray-400 block text-xs">Pedido ID</span>
+    {{ order()?.id }}
+  </div>
+
+  <div class="text-gray-700 font-medium mx-2">
+    <span class="md:hidden text-gray-400 block text-xs">Cliente</span>
+    {{ order()?.customerName }}
+  </div>
+
+  <div class="text-gray-700 mx-2">
+    <span class="md:hidden text-gray-400 block text-xs">Data</span>
+    {{ order()?.deliveryDate | date: 'dd MMM yyyy': undefined: 'pt-BR' }}
+  </div>
+
+  <div class="text-gray-700 font-normal mx-2">
+    <span class="md:hidden text-gray-400 block text-xs">Produto</span>
+    {{ order()?.product }}
+  </div>
+
+  <div
+    class="text-gray-500 relative md:rounded-full font-medium px-2 md:px-4 py-2 flex flex-col md:flex-row items-start md:items-center md:justify-between"
+    [class]="colorForStatus()">
+    <span class="md:hidden text-gray-400 text-xs mb-1">Status</span>
+
+    <span class="hidden md:block">&#9679; {{ order()?.status }}</span>
+    <div class="flex justify-center md:justify-end">
+      <span class="text-sm md:hidden">&#9679; {{ order()?.status }}</span>
+
+      <button (click)="openStatusSelector()" class="ml-2 text-gray-500 hover:text-gray-700 cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+        </svg>
+      </button>
+    </div>
+
+
+    <div (click)="statusSelectorOpen = false" [class.hidden]="!statusSelectorOpen"
+      class="fixed inset-0 bg-black opacity-70 z-50">
+      <button (click)="statusSelectorOpen = false"
+        class="absolute top-4 right-4 text-white hover:text-gray-700 cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+
+    @if (statusSelectorOpen) {
+    <div class="absolute right-0 mt-2 bg-white border rounded-lg shadow-lg z-50 py-2">
+      <select #statusSelect (change)="onStatusChange(statusSelect)" class="outline-none w-full px-4 py-2">
+        <option value="em andamento">Em andamento</option>
+        <option value="entregue">Entregue</option>
+        <option value="cancelado">Cancelado</option>
+      </select>
+    </div>
+    }
+  </div>
+
+
+  <button (click)="deleteOrder()" class="text-red-500 hover:text-red-700 cursor-pointer">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+    </svg>
+  </button>
+
+
+
+
+</div>

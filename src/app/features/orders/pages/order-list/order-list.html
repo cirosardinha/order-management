@@ -18,7 +18,7 @@
 </div>
 
 <div
-  class="flex flex-col gap-3 border border-gray-100 rounded-lg px-4 py-2 shadow-sm mx-4 overflow-y-auto max-h-98 bg-white">
+  class="flex flex-col gap-3 border border-gray-100 rounded-lg px-4 py-2 shadow-sm mx-4 overflow-y-auto min-h-[70vh] max-h-98 bg-white">
   @for (order of orders(); track order.id) {
   <app-order-item [order]="order" />
   } @empty {

@@ -1,9 +1,7 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { Order } from '../../models/order';
 import { DatePipe } from '@angular/common';
-import { OrderService } from '../../services/order-service';
 import { OrderStatus } from '../../enums/order-status';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-item',
@@ -13,9 +11,31 @@ import { Router } from '@angular/router';
 })
 export class OrderItem {
   order = input<Order>();
-  orderService = inject(OrderService);
-  statusSelectorOpen: boolean = false;
-  router = inject(Router);
+  statusSelectorOpen = signal(false);
+  orderDeleted = output<string>();
+  statusChanged = output<{ id: string; status: OrderStatus }>();
+
+  onDelete(event: Event) {
+    event.stopPropagation();
+    const order = this.order();
+    if (!order) return;
+
+    if (confirm('Tem certeza que deseja excluir este pedido?')) {
+      this.orderDeleted.emit(order.id);
+      this.statusSelectorOpen.set(false);
+    }
+  }
+
+  onStatusChange(event: HTMLSelectElement) {
+    const order = this.order();
+    if (!order) return;
+
+    const newStatus = event.value as OrderStatus;
+    if (!newStatus) return;
+    this.statusChanged.emit({ id: order.id, status: newStatus });
+    this.statusSelectorOpen.set(false);
+    event.value = '';
+  }
 
   colorForStatus() {
     switch (this.order()?.status) {
@@ -30,22 +50,7 @@ export class OrderItem {
     }
   }
 
-  onStatusChange(event: HTMLSelectElement) {
-    const newStatus = Object.values(OrderStatus).find((status) => status === event.value);
-    this.orderService.updateOrder(this.order()!.id, { status: newStatus });
-    this.statusSelectorOpen = !this.statusSelectorOpen;
-    event.value = '';
-  }
-
-  deleteOrder() {
-    if (confirm('Tem certeza que deseja excluir este pedido?')) {
-      this.orderService.deleteOrder(this.order()!.id);
-      this.statusSelectorOpen = false;
-      this.router.navigate(['/orders']);
-    }
-  }
-
   openStatusSelector() {
-    this.statusSelectorOpen = !this.statusSelectorOpen;
+    this.statusSelectorOpen.update((value) => !value);
   }
 }

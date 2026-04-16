@@ -5,6 +5,7 @@ import { Header } from '../../components/header/header';
 import { OrderItem } from '../../components/order-item/order-item';
 import { RouterLink } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
+import { OrderStatus } from '../../enums/order-status';
 
 @Component({
   selector: 'app-order-list',
@@ -18,5 +19,13 @@ export class OrderList implements OnInit {
 
   ngOnInit(): void {
     this.orders = this.orderService.orders;
+  }
+
+  onOrderDeleted(orderId: string) {
+    this.orderService.deleteOrder(orderId);
+  }
+
+  onStatusChange(event: { id: string; status: OrderStatus }) {
+    this.orderService.updateOrder(event.id, { status: event.status });
   }
 }

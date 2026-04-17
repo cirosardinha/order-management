@@ -1,9 +1,10 @@
 import { Component, output } from '@angular/core';
 import { OrderStatus } from '../../enums/order-status';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-dropdown',
-  imports: [],
+  imports: [OverlayModule],
   templateUrl: './dropdown.html',
   styleUrl: './dropdown.css',
 })

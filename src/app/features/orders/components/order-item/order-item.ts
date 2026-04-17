@@ -1,12 +1,13 @@
-import { Component, input, output, signal } from '@angular/core';
-import { Order } from '../../models/order';
+import { Component, computed, input, output, signal } from '@angular/core';
+import { Order } from '../../interfaces/order';
 import { DatePipe } from '@angular/common';
 import { OrderStatus } from '../../enums/order-status';
 import { Dropdown } from '../dropdown/dropdown';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-order-item',
-  imports: [DatePipe, Dropdown],
+  imports: [DatePipe, Dropdown, OverlayModule],
   templateUrl: './order-item.html',
   styleUrl: './order-item.css',
 })
@@ -37,20 +38,24 @@ export class OrderItem {
     this.statusChanged.emit({ id: order.id, status: newStatus });
   }
 
-  colorForStatus() {
-    switch (this.order()?.status) {
-      case 'em andamento':
-        return 'bg-[#fdf1c6]';
-      case 'entregue':
-        return 'bg-[#cef9e4]';
-      case 'cancelado':
-        return 'bg-[#ffcdd2]';
-      default:
-        return 'bg-gray-500';
-    }
-  }
+  statusColor = computed(() => {
+    const order = this.order();
+    if (!order) return 'bg-gray-500';
 
-  onToggleDropdown() {
+    const map: Record<OrderStatus, string> = {
+      'em andamento': 'bg-[#fdf1c6]',
+      entregue: 'bg-[#cef9e4]',
+      cancelado: 'bg-[#ffcdd2]',
+    };
+
+    return map[order.status] ?? 'bg-gray-500';
+  });
+
+  onToggleDropdown(event?: Event | void) {
+    if (event instanceof Event) {
+      event.stopPropagation();
+    }
+
     this.toggleDropdown.emit();
   }
 

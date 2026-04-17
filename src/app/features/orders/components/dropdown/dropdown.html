@@ -1,10 +1,9 @@
-<div class="absolute right-0 mt-3 w-48 bg-white border border-gray-200 rounded-xl shadow-xl z-50 py-2 overflow-hidden
-         animate-in fade-in zoom-in-95 duration-150 ">
+<div class="w-48 bg-white border border-gray-200 rounded-xl shadow-xl py-2 overflow-hidden
+            animate-in fade-in zoom-in-95 duration-150">
 
   <div class="flex items-center justify-between px-4 py-2 border-b border-gray-100">
     <span class="text-xs text-gray-400 font-medium">Alterar status</span>
-
-    <button (click)="closed.emit()" class="p-1 rounded-full hover:bg-gray-100 transition">
+    <button (click)="closed.emit()" class="p-1 rounded-full hover:bg-gray-100 transition cursor-pointer">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24"
         stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -13,24 +12,17 @@
   </div>
 
   <div class="flex flex-col">
-
     <button (click)="onSelect(orderStatus.IN_PROGRESS)"
       class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">
-      <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
-      Em andamento
+      <span class="w-2 h-2 rounded-full bg-yellow-400"></span> Em andamento
     </button>
-
     <button (click)="onSelect(orderStatus.DELIVERED)"
       class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">
-      <span class="w-2 h-2 rounded-full bg-green-400"></span>
-      Entregue
+      <span class="w-2 h-2 rounded-full bg-green-400"></span> Entregue
     </button>
-
     <button (click)="onSelect(orderStatus.CANCELLED)"
       class="flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition">
-      <span class="w-2 h-2 rounded-full bg-red-400"></span>
-      Cancelado
+      <span class="w-2 h-2 rounded-full bg-red-400"></span> Cancelado
     </button>
-
   </div>
 </div>

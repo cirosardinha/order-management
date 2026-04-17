@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 md:grid-cols-6 gap-3 md:gap-0 items-center p-5 md:p-4 md:px-6 
-         bg-white md:bg-transparent rounded-xl md:rounded-none 
-         border border-slate-200 md:border-0 md:border-b md:border-slate-100
-         mb-4 md:mb-0 shadow-sm md:shadow-none
-         hover:bg-slate-50 transition-colors duration-200">
+           bg-white md:bg-transparent rounded-xl md:rounded-none 
+           border border-slate-200 md:border-0 md:border-b md:border-slate-100
+           mb-4 md:mb-0 shadow-sm md:shadow-none
+           hover:bg-slate-50 transition-colors duration-200">
 
   <div class="flex justify-between items-start md:block">
     <div class="flex flex-col">
@@ -12,7 +12,7 @@
 
     <div class="md:hidden">
       <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border-none"
-        [class]="colorForStatus()">
+        [class]="statusColor()">
         {{ order()?.status }}
       </span>
     </div>
@@ -47,7 +47,7 @@
 
   <div class="hidden md:flex flex-col">
     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border-none"
-      [class]="colorForStatus()">
+      [class]="statusColor()">
       <span class="w-1.5 h-1.5 rounded-full bg-current mr-1.5"></span>
       {{ order()?.status }}
     </span>
@@ -65,7 +65,7 @@
       <span class="md:hidden ml-2 text-xs font-bold uppercase tracking-tight">Excluir</span>
     </button>
 
-    <button (click)="onToggleDropdown()"
+    <button #trigger="cdkOverlayOrigin" cdkOverlayOrigin (click)="onToggleDropdown($event)"
       class="flex-1 md:flex-none flex justify-center items-center py-2.5 md:p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all cursor-pointer bg-slate-50 md:bg-transparent">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -74,12 +74,15 @@
       <span class="md:hidden ml-2 text-xs font-bold uppercase tracking-tight">Status</span>
     </button>
 
-    @if (isOpen()) {
-    <div
-      class="absolute bottom-full md:top-12 right-0 mb-2 md:mb-0 z-50 min-w-48 shadow-2xl rounded-xl border border-slate-100 bg-white">
-      <app-dropdown (closed)="onToggleDropdown()" (statusSelected)="onStatusSelected($event)"></app-dropdown>
-    </div>
-    }
-  </div>
+    <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen()"
+      [cdkConnectedOverlayHasBackdrop]="true" cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+      (backdropClick)="onToggleDropdown()" [cdkConnectedOverlayPositions]="[
+    { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: 8 },
+    { originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom', offsetY: -8 }
+  ]">
 
+      <app-dropdown (closed)="onToggleDropdown()" (statusSelected)="onStatusSelected($event)">
+      </app-dropdown>
+    </ng-template>
+  </div>
 </div>

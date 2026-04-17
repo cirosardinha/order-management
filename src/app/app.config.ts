@@ -18,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideNativeDateAdapter(),
     provideToastr({
       timeOut: 2000,
-      positionClass: 'toast-top-right',
+      positionClass: 'toast-bottom-right',
       preventDuplicates: true,
       closeButton: true,
       tapToDismiss: true,

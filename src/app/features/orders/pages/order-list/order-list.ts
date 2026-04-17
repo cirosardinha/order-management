@@ -3,13 +3,11 @@ import { OrderService } from '../../services/order-service';
 import { Order } from '../../models/order';
 import { Header } from '../../components/header/header';
 import { OrderItem } from '../../components/order-item/order-item';
-import { RouterLink } from '@angular/router';
-import { MatListModule } from '@angular/material/list';
 import { OrderStatus } from '../../enums/order-status';
 
 @Component({
   selector: 'app-order-list',
-  imports: [Header, OrderItem, RouterLink, MatListModule],
+  imports: [Header, OrderItem],
   templateUrl: './order-list.html',
   styleUrl: './order-list.css',
 })

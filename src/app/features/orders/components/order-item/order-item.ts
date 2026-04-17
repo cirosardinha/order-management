@@ -2,18 +2,22 @@ import { Component, input, output, signal } from '@angular/core';
 import { Order } from '../../models/order';
 import { DatePipe } from '@angular/common';
 import { OrderStatus } from '../../enums/order-status';
+import { Dropdown } from '../dropdown/dropdown';
 
 @Component({
   selector: 'app-order-item',
-  imports: [DatePipe],
+  imports: [DatePipe, Dropdown],
   templateUrl: './order-item.html',
   styleUrl: './order-item.css',
 })
 export class OrderItem {
   order = input<Order>();
-  statusSelectorOpen = signal(false);
+  isOpen = input<boolean>(false);
+  orderStatus = OrderStatus;
   orderDeleted = output<string>();
   statusChanged = output<{ id: string; status: OrderStatus }>();
+  toggleDropdown = output<void>();
+  openUpwards = signal<boolean>(false);
 
   onDelete(event: Event) {
     event.stopPropagation();
@@ -22,19 +26,15 @@ export class OrderItem {
 
     if (confirm('Tem certeza que deseja excluir este pedido?')) {
       this.orderDeleted.emit(order.id);
-      this.statusSelectorOpen.set(false);
     }
   }
 
-  onStatusChange(event: HTMLSelectElement) {
+  onStatusChange(status: OrderStatus) {
     const order = this.order();
     if (!order) return;
-
-    const newStatus = event.value as OrderStatus;
+    const newStatus = status;
     if (!newStatus) return;
     this.statusChanged.emit({ id: order.id, status: newStatus });
-    this.statusSelectorOpen.set(false);
-    event.value = '';
   }
 
   colorForStatus() {
@@ -50,7 +50,11 @@ export class OrderItem {
     }
   }
 
-  openStatusSelector() {
-    this.statusSelectorOpen.update((value) => !value);
+  onToggleDropdown() {
+    this.toggleDropdown.emit();
+  }
+
+  onStatusSelected(status: OrderStatus) {
+    this.onStatusChange(status);
   }
 }

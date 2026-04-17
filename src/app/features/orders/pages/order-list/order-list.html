@@ -17,10 +17,10 @@
   Pedidos
 </div>
 
-<div
-  class="flex flex-col gap-3 border border-gray-100 rounded-lg px-4 py-2 shadow-sm mx-4 overflow-y-auto min-h-[60vh] md:h-98 max-h-98 bg-white">
+<div class="flex flex-col gap-3 border border-gray-100 rounded-lg px-4 py-2 shadow-sm mx-4 min-h-screen bg-gray-50">
   @for (order of orders(); track order.id) {
-  <app-order-item (orderDeleted)="onOrderDeleted($event)" (statusChanged)="onStatusChange($event)" [order]="order" />
+  <app-order-item [isOpen]="openDropdownId() === order.id" [order]="order" (orderDeleted)="onOrderDeleted($event)"
+    (statusChanged)="onStatusChange($event)" (toggleDropdown)="toggleDropdown(order.id)" />
   } @empty {
   <div class="text-center py-4 text-gray-500">
     Nenhum pedido encontrado

@@ -16,6 +16,7 @@ import { OrderStatus } from '../../enums/order-status';
 export class OrderList implements OnInit {
   private orderService = inject(OrderService);
   orders!: Signal<Order[]>;
+  openDropdownId = signal<string | null>(null);
 
   ngOnInit(): void {
     this.orders = this.orderService.orders;
@@ -27,5 +28,9 @@ export class OrderList implements OnInit {
 
   onStatusChange(event: { id: string; status: OrderStatus }) {
     this.orderService.updateOrder(event.id, { status: event.status });
+  }
+
+  toggleDropdown(orderId: string) {
+    this.openDropdownId.update((currentId) => (currentId === orderId ? null : orderId));
   }
 }

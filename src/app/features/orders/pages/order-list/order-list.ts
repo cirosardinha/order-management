@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { OrderService } from '../../services/order-service';
-import { Order } from '../../models/order';
+import { Order } from '../../interfaces/order';
 import { Header } from '../../components/header/header';
 import { OrderItem } from '../../components/order-item/order-item';
 import { OrderStatus } from '../../enums/order-status';

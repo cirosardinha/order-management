@@ -1,5 +1,5 @@
 import { effect, Injectable, signal } from '@angular/core';
-import { Order } from '../models/order';
+import { Order } from '../interfaces/order';
 import { OrderStatus } from '../enums/order-status';
 
 const STORAGE_KEY = 'orders';
